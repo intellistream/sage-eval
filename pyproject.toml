@@ -1,58 +1,53 @@
 [build-system]
-requires = ["setuptools>=68.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "isage-eval"
-version = "0.0.0.1"
-description = "Evaluation metrics, profiling tools, and benchmarking for SAGE framework"
+version = "0.1.0.0"
+description = "SAGE Evaluation Framework - Metrics, profilers, and judges for AI systems"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
+license = "MIT"
 authors = [
-    {name = "IntelliStream Team", email = "shuhao_zhang@hust.edu.cn"}
+    { name = "IntelliStream Team", email = "shuhao_zhang@hust.edu.cn" }
 ]
-keywords = ["ai", "sage", "llm", "evaluation", "metrics", "benchmarking"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
+keywords = [
+    "evaluation",
+    "metrics",
+    "profiler",
+    "judge",
+    "LLM",
+    "AI",
 ]
 
 dependencies = [
-    "numpy>=1.21.0",
+    "pydantic>=2.0.0",
+    "typing-extensions>=4.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "ruff>=0.8.0",
-    "mypy>=1.0",
-]
-sage = [
-    "isage-libs>=0.2.0",
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.4.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/intellistream/sage-eval"
-Documentation = "https://sage.intellistream.com"
-Repository = "https://github.com/intellistream/sage-eval"
+"Homepage" = "https://github.com/intellistream/sage-eval"
+"Repository" = "https://github.com/intellistream/sage-eval"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["sage_libs*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
 
-[tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B", "C4"]
-ignore = ["E501"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-v --cov"
+asyncio_mode = "auto"
