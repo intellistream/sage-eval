@@ -10,6 +10,26 @@
 | **版本格式** | 四段式 `0.0.0.x` |
 | **仓库** | `intellistream/sage-eval` |
 
+## 🚨 CRITICAL：这不是 Benchmark
+
+**sage-eval 是评估工具库，不是 benchmark 框架。**
+
+- ✅ **sage-eval**: 提供可复用的评估指标、Profiler、LLM Judge 的实现
+- ❌ **NOT benchmark**: 不包含实验运行器、数据集管理、结果报告生成
+- 📊 **Benchmark 项目**: 参考 `sage-benchmark`, `sage-agent-benchmark` 等独立仓库
+
+**区别**:
+```python
+# ✅ sage-eval 提供的功能（可复用组件）
+from sage_eval import F1Score, LatencyProfiler, PointwiseJudge
+
+# ❌ sage-eval 不提供的功能（这些在 benchmark 仓库中）
+# - Experiment runners
+# - Dataset loaders
+# - Benchmark configurations
+# - Report generators
+```
+
 ## 层级定位
 
 这是一个 **L3 纯算法库**，提供评估指标、Profiler 和 LLM Judge 的实现。
