@@ -6,6 +6,12 @@
 - Eval code should remain runtime-neutral, but any runtime/scheduling guidance must align with Flownet.
 - Do NOT add new `ray` imports/dependencies.
 
+## 🚨 Installation Consistency (Cross-Repo)
+
+- 在 conda 环境中，**必须**使用 `python -m pip`，不要直接使用 `pip`。
+- 若流程依赖 SAGE 主仓库能力，先在 `SAGE/` 执行 `./quickstart.sh --dev --yes`。
+- SAGE quickstart 已安装核心独立 PyPI 依赖（如 `isagellm`、`isage-flownet`、`isage-vdb` 等），不要重复建议通过 extras 手动补装。
+
 ## Package Identity
 
 | 属性 | 值 |
