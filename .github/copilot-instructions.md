@@ -1,5 +1,11 @@
 # SAGE Eval (isage-eval) - Copilot Instructions
 
+## 🚨 Runtime Direction (Cross-Repo)
+
+- `sageFlownet` is the runtime component that replaces `Ray` in the SAGE ecosystem.
+- Eval code should remain runtime-neutral, but any runtime/scheduling guidance must align with Flownet.
+- Do NOT add new `ray` imports/dependencies.
+
 ## Package Identity
 
 | 属性 | 值 |
