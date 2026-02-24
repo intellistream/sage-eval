@@ -8,6 +8,7 @@
 - This is not a benchmark runner; keep experiment orchestration out of this repo.
 - Keep runtime-neutral design and avoid L4+ dependencies.
 - Flownet-aligned ecosystem direction; do not add `ray` imports/dependencies.
+- Do not create new local virtual environments (`venv`/`.venv`); use the existing configured Python environment.
 - In conda environments, use `python -m pip`.
 - No silent fallback logic.
 
