@@ -7,9 +7,10 @@ class TestPackageImports:
     def test_import_package(self):
         """Test that main package imports correctly."""
         import sage_eval
+        from sage_eval._version import __version__ as pkg_version
 
         assert hasattr(sage_eval, "__version__")
-        assert sage_eval.__version__ == "0.0.0.1"
+        assert sage_eval.__version__ == pkg_version
 
     def test_import_metrics(self):
         """Test importing metrics."""
