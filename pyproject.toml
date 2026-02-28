@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "isage-eval"
-version = "0.1.0.1"
+version = "0.1.0.2"
 description = "SAGE Evaluation Framework - Metrics, profilers, and judges for AI systems"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,7 +24,7 @@ keywords = [
 dependencies = [
     "pydantic>=2.0.0",
     "typing-extensions>=4.0.0",
-    "isage-libs>=0.2.0",
+    "isage-libs>=0.2.4.22",
 ]
 
 [project.optional-dependencies]
