@@ -6,7 +6,7 @@ This package provides evaluation tools for SAGE pipelines:
 - Judges: LLM-based evaluation (Faithfulness, Relevance)
 """
 
-# Auto-register with SAGE if available
+# Register components into SAGE eval factory on import
 from . import _register as _  # noqa: F401
 from ._version import __author__, __email__, __version__
 

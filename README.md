@@ -1,61 +1,63 @@
 # sage-eval
 
-**SAGE 平台专用评估工具库** - L3 纯算法库，提供评估指标、性能分析器与 LLM 评审工具。
+SAGE L3 评估组件库，提供可组合的 `Metric`、`Profiler`、`LLM Judge` 实现。
 
-**PyPI**: `isage-eval`  
-**Import**: `sage_eval`  
-**Layer**: L3 (Algorithm Library)
+- PyPI: `isage-eval`
+- Import: `sage_libs.sage_eval`
+- Layer: L3 (evaluation library, not benchmark)
 
-> ⚠️ **注意**: 这是评估**工具库**，不是 benchmark。Benchmark 项目请参考 [sage-benchmark](https://github.com/intellistream/sage-benchmark) 及相关仓库。
+## 边界与约束
 
-## 功能模块
+- 本仓库只提供评测组件实现，不承载执行平台调度职责。
+- 依赖 `sage.libs.eval` 接口层并在导入时注册实现。
+- 采用 fail-fast：不保留 fallback / shim / 兼容分支。
 
-### 📊 评估指标 (Metrics)
-- **文本指标**: F1 Score, Exact Match, BLEU, ROUGE
-- **分类指标**: Precision, Recall, Accuracy
-- **检索指标**: Recall@K, MRR, NDCG
+## 当前组件
 
-### ⚡ 性能分析 (Profiler)
-- **延迟分析**: LatencyProfiler
-- **内存分析**: MemoryProfiler
-- **吞吐量分析**: ThroughputProfiler
+### Metrics
 
-### 🤖 LLM 评审 (Judge)
-- **点式评估**: PointwiseJudge
-- **对比评估**: PairwiseJudge
+- `AccuracyMetric`
+- `BLEUMetric`
+- `F1Metric`
 
-## Installation
+### Profilers
+
+- `LatencyProfiler`
+- `ThroughputProfiler`
+
+### Judges
+
+- `FaithfulnessJudge`
+- `RelevanceJudge`
+
+## 安装
+
 ```bash
 pip install isage-eval
 ```
 
-## Quick Start
+## 快速使用
 
 ```python
-from sage_eval import F1Score, ROUGE, LatencyProfiler, PointwiseJudge
+from sage_libs.sage_eval import AccuracyMetric, LatencyProfiler, RelevanceJudge
 
-# 计算 F1 分数
-f1 = F1Score()
-score = f1.compute(predictions, references)
+metric = AccuracyMetric()
+metric_result = metric.compute([1, 0, 1], [1, 1, 1])
 
-# 性能分析
 profiler = LatencyProfiler()
-with profiler.measure("task_name"):
-    # 执行操作
-    pass
-report = profiler.report()
+with profiler:
+    _ = sum(range(10000))
 
-# LLM 评审
-judge = PointwiseJudge(model="gpt-4")
-score = judge.evaluate(
-    question="What is Python?",
-    answer="Python is a programming language."
+def mock_llm(_: str) -> str:
+    return "SCORE: 0.9\nREASONING: Relevant response."
+
+judge = RelevanceJudge(llm_fn=mock_llm)
+judge_result = judge.judge(
+    response="Paris is the capital of France.",
+    question="What is the capital of France?",
 )
 ```
 
-## Integration with SAGE
-
-本包作为独立的 L3 算法库，可以单独使用或集成到 SAGE 框架中。在 SAGE 框架中，接口层位于 `sage.libs.eval`，本包通过 `_register.py` 自动注册实现。
-
 ## License
+
 Apache 2.0

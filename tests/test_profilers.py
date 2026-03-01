@@ -4,7 +4,7 @@ import time
 
 import pytest
 
-from sage_eval.profilers import LatencyProfiler, ThroughputProfiler
+from sage_libs.sage_eval.profilers import LatencyProfiler, ThroughputProfiler
 
 
 class TestLatencyProfiler:

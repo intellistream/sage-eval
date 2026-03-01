@@ -5,15 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-# Try importing SAGE base class
-try:
-    from sage.libs.eval.interface.base import BaseMetric, MetricType
-
-    _HAS_SAGE = True
-except ImportError:
-    BaseMetric = object
-    MetricType = None
-    _HAS_SAGE = False
+from sage.libs.eval.interface.base import BaseMetric, MetricType
 
 
 @dataclass
@@ -24,10 +16,9 @@ class MetricResult:
     score: float
     metadata: dict[str, Any] = field(default_factory=dict)
 
-    # For SAGE compatibility
     @property
     def value(self) -> float:
-        """Alias for score to match SAGE interface."""
+        """Alias for score."""
         return self.score
 
 
@@ -70,9 +61,7 @@ class AccuracyMetric(BaseMetric):
     @property
     def metric_type(self) -> Any:
         """Return metric type."""
-        if _HAS_SAGE and MetricType is not None:
-            return MetricType.ACCURACY
-        return "accuracy"
+        return MetricType.ACCURACY
 
     def compute(
         self,
