@@ -2,7 +2,7 @@
 
 import pytest
 
-from sage_eval.metrics import AccuracyMetric, BLEUMetric, F1Metric
+from sage_libs.sage_eval.metrics import AccuracyMetric, BLEUMetric, F1Metric
 
 
 class TestAccuracyMetric:

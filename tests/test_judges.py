@@ -2,7 +2,7 @@
 
 import pytest
 
-from sage_eval.judges import FaithfulnessJudge, RelevanceJudge
+from sage_libs.sage_eval.judges import FaithfulnessJudge, RelevanceJudge
 
 
 class TestFaithfulnessJudge:
