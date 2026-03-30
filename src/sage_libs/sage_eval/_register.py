@@ -1,48 +1,45 @@
 """Auto-registration of sage-eval components with SAGE framework.
 
-This module automatically registers all evaluation components with SAGE
-when the package is imported and SAGE is available.
+This module registers all evaluation components with SAGE when imported.
 """
 
 from __future__ import annotations
 
-# Try to register with SAGE framework
-try:
-    from sage.libs.eval.interface.factory import (
-        register_judge,
-        register_metric,
-        register_profiler,
-    )
+from sage.libs.eval.interface.factory import (
+    registered_judges,
+    registered_metrics,
+    registered_profilers,
+    register_judge,
+    register_metric,
+    register_profiler,
+)
 
-    # Import implementations
-    from .judges import FaithfulnessJudge, RelevanceJudge
-    from .metrics import AccuracyMetric, BLEUMetric, F1Metric
-    from .profilers import LatencyProfiler, ThroughputProfiler
+from .judges import FaithfulnessJudge, RelevanceJudge
+from .metrics import AccuracyMetric, BLEUMetric, F1Metric
+from .profilers import LatencyProfiler, ThroughputProfiler
 
-    # Register metrics
+if "accuracy" not in registered_metrics():
     register_metric("accuracy", AccuracyMetric)
+if "bleu" not in registered_metrics():
     register_metric("bleu", BLEUMetric)
+if "f1" not in registered_metrics():
     register_metric("f1", F1Metric)
 
-    # Register profilers
+if "latency" not in registered_profilers():
     register_profiler("latency", LatencyProfiler)
+if "throughput" not in registered_profilers():
     register_profiler("throughput", ThroughputProfiler)
 
-    # Register judges
+if "faithfulness" not in registered_judges():
     register_judge("faithfulness", FaithfulnessJudge)
+if "relevance" not in registered_judges():
     register_judge("relevance", RelevanceJudge)
-
-    _SAGE_REGISTERED = True
-
-except ImportError:
-    # SAGE not available, skip registration
-    _SAGE_REGISTERED = False
 
 
 def is_registered() -> bool:
-    """Check if components are registered with SAGE.
+    """Check registration status.
 
     Returns:
-        True if registered with SAGE framework, False otherwise.
+        Always True after successful module import.
     """
-    return _SAGE_REGISTERED
+    return True

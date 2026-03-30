@@ -1,5 +1,12 @@
 """Tests for package structure and imports."""
 
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
 
 class TestPackageImports:
     """Tests for package imports."""
@@ -9,7 +16,7 @@ class TestPackageImports:
         import sage_libs.sage_eval as sage_eval
 
         assert hasattr(sage_eval, "__version__")
-        assert sage_eval.__version__ == "0.0.0.1"
+        assert sage_eval.__version__ == pkg_version
 
     def test_import_metrics(self):
         """Test importing metrics."""
@@ -67,10 +74,4 @@ class TestRegistration:
         """Test registration status function."""
         from sage_libs.sage_eval._register import is_registered
 
-        # Should return boolean
-        result = is_registered()
-        assert isinstance(result, bool)
-
-        # In standalone mode (no SAGE), should be False
-        # When SAGE is available, should be True
-        # Either way, function should work
+        assert is_registered() is True

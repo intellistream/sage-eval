@@ -8,14 +8,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any, TypeVar
 
-# Try importing SAGE base class
-try:
-    from sage.libs.eval.interface.base import BaseProfiler
-
-    _HAS_SAGE = True
-except ImportError:
-    BaseProfiler = object
-    _HAS_SAGE = False
+from sage.libs.eval.interface.base import BaseProfiler
 
 
 F = TypeVar("F", bound=Callable[..., Any])

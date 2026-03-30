@@ -6,14 +6,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
-# Try importing SAGE base class
-try:
-    from sage.libs.eval.interface.base import BaseLLMJudge
-
-    _HAS_SAGE = True
-except ImportError:
-    BaseLLMJudge = object
-    _HAS_SAGE = False
+from sage.libs.eval.interface.base import BaseLLMJudge
 
 
 @dataclass
@@ -168,24 +161,33 @@ REASONING: <your detailed reasoning>"""
 
         Returns:
             Tuple of (score, reasoning).
+
+        Raises:
+            ValueError: If SCORE/REASONING fields are missing or SCORE is invalid.
         """
         lines = llm_response.strip().split("\n")
-        score = 0.5  # Default
-        reasoning = llm_response  # Default to full response
+        score: float | None = None
+        reasoning: str | None = None
 
         for i, line in enumerate(lines):
             if line.upper().startswith("SCORE:"):
                 try:
                     score_str = line.split(":", 1)[1].strip()
                     score = float(score_str)
-                    score = max(0.0, min(1.0, score))  # Clamp to [0, 1]
                 except (ValueError, IndexError):
-                    pass
+                    raise ValueError("Invalid SCORE format in LLM response") from None
             elif line.upper().startswith("REASONING:"):
                 reasoning = line.split(":", 1)[1].strip()
                 # Include remaining lines in reasoning
                 if i + 1 < len(lines):
                     reasoning += "\n" + "\n".join(lines[i + 1 :])
                 break
+
+        if score is None:
+            raise ValueError("Missing SCORE field in LLM response")
+        if score < 0.0 or score > 1.0:
+            raise ValueError("SCORE must be between 0.0 and 1.0")
+        if reasoning is None or not reasoning.strip():
+            raise ValueError("Missing REASONING field in LLM response")
 
         return score, reasoning

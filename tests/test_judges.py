@@ -80,20 +80,47 @@ Overall acceptable."""
         assert result.score == 0.75
         assert "mostly faithful" in result.reasoning
 
-    def test_score_clamping(self):
-        """Test that scores are clamped to [0, 1]."""
+    def test_score_out_of_range_raises(self):
+        """Test that out-of-range score raises ValueError."""
 
         def mock_llm(prompt: str) -> str:
             return "SCORE: 1.5\nREASONING: Over the top"
 
         judge = FaithfulnessJudge(llm_fn=mock_llm)
-        result = judge.judge(
-            response="Test",
-            context="Context",
-            question="Question",
-        )
+        with pytest.raises(ValueError, match="SCORE must be between 0.0 and 1.0"):
+            judge.judge(
+                response="Test",
+                context="Context",
+                question="Question",
+            )
 
-        assert result.score == 1.0  # Clamped
+    def test_missing_score_raises(self):
+        """Test that missing SCORE field raises ValueError."""
+
+        def mock_llm(prompt: str) -> str:
+            return "REASONING: only reasoning"
+
+        judge = FaithfulnessJudge(llm_fn=mock_llm)
+        with pytest.raises(ValueError, match="Missing SCORE field"):
+            judge.judge(
+                response="Test",
+                context="Context",
+                question="Question",
+            )
+
+    def test_missing_reasoning_raises(self):
+        """Test that missing REASONING field raises ValueError."""
+
+        def mock_llm(prompt: str) -> str:
+            return "SCORE: 0.8"
+
+        judge = FaithfulnessJudge(llm_fn=mock_llm)
+        with pytest.raises(ValueError, match="Missing REASONING field"):
+            judge.judge(
+                response="Test",
+                context="Context",
+                question="Question",
+            )
 
     def test_with_reference(self):
         """Test judge with reference answer."""

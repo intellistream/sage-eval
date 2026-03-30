@@ -6,14 +6,7 @@ import time
 from dataclasses import dataclass, field
 from typing import Any
 
-# Try importing SAGE base class
-try:
-    from sage.libs.eval.interface.base import BaseProfiler
-
-    _HAS_SAGE = True
-except ImportError:
-    BaseProfiler = object
-    _HAS_SAGE = False
+from sage.libs.eval.interface.base import BaseProfiler
 
 
 @dataclass
